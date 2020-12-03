@@ -1,5 +1,6 @@
 # Django Docker Template
-This is a template for starting up development in django using Docker, Docker Compose, and Django with Postgres, Redis, and DynamoDB
+This is a template for starting up development in django using Docker, Docker Compose, and Django with Postgres, 
+and Redis
 
 ## Development
 To start development first copy the environment file locally and edit any of the values, the default should work 
