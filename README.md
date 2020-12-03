@@ -40,7 +40,7 @@ or for HTML based coverage reporting
 docker-compose run app bash -c "coverage run manage.py test && coverage html -d htmlcov"
 ```
 
-###Notebooks
+### Notebooks
 To use the notebooks, navigate to `http://localhost:8888`. The password to log into the notebooks is
 `password`
 
