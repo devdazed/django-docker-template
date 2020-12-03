@@ -44,7 +44,7 @@ docker-compose run app bash -c "coverage run manage.py test && coverage html -d 
 To use the notebooks, navigate to `http://localhost:8888`. The password to log into the notebooks is
 `password`
 
-Once in Jupyter create a new `Django Shell-Plus` notebook to work use jupyter as a Django cli replacement.
+Once in Jupyter create a new `Django Shell-Plus` notebook to use jupyter as a Django cli replacement.
 
 ### Using the admin
 Once you have created a superuser, log into the admin by browsing to `http://localhost:5000/admin`
