@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:alpine
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  app:
+    build:
+      context: .
+      target: local
+    command: ["python", "manage.py", "runserver_plus", "0.0.0.0:5000", "--print-sql"]
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    environment:
+      - RUN_MIGRATIONS=1
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - DJANGO_SECRET_KEY
+      - DEBUG
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+
+  celery:
+    build:
+      context: .
+      target: local
+    command: ["celery", "-A", "app", "worker", "-l", "info"]
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - DJANGO_SECRET_KEY
+      - DJANGO_ALLOW_ASYNC_UNSAFE
+      - DEBUG
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+
+  notebooks:
+    build:
+      context: .
+      target: local
+    command: ["python", "manage.py", "shell_plus", "--notebook"]
+    volumes:
+      - .:/app
+    ports:
+      - "8888:8888"
+    depends_on:
+      - db
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - DJANGO_SECRET_KEY
+      - DJANGO_ALLOW_ASYNC_UNSAFE
+      - DEBUG
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_HOST
+      - POSTGRES_PORT
